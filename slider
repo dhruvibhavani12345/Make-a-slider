@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Records</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .container {
+      margin-top: 20px;
+    }
+    .filters {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Employee Records</h1>
+    <div class="filters">
+      <div class="form-row">
+        <div class="col">
+          <label for="cityFilter">Filter by City:</label>
+          <select id="cityFilter" class="form-control">
+            <option value="">All Cities</option>
+            <option value="surat">Surat</option>
+            <option value="vadodara">Vadodara</option>
+            <option value="vapi">Vapi</option>
+            <option value="rajkot">Rajkot</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="salaryFilter">Filter by Salary:</label>
+          <input type="number" id="salaryFilter" class="form-control" placeholder="Enter Salary">
+        </div>
+        <div class="col">
+          <label for="depFilter">Filter by Department:</label>
+          <select id="depFilter" class="form-control">
+            <option value="">All Departments</option>
+            <option value="programming">Programming</option>
+            <option value="ui/ux">UI/UX</option>
+            <option value="bde">BDE</option>
+            <option value="webdesign">Web Design</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="degiFilter">Filter by Designation:</label>
+          <select id="degiFilter" class="form-control">
+            <option value="">All Designations</option>
+            <option value="senior">Senior</option>
+            <option value="junior">Junior</option>
+            <option value="tl">TL</option>
+            <option value="manager">Manager</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>City</th>
+          <th>Salary</th>
+          <th>Designation</th>
+          <th>Department</th>
+        </tr>
+      </thead>
+      <tbody id="recordTable">
+
+      </tbody>
+    </table>
+
+    <!-- Total Salary -->
+    <h4 id="totalSalary">Total Salary: $0</h4>
+  </div>
+
+  <script>
+    const records = [{
+      id: 1,
+      name: "ashish",
+      email: "ashu@gmail.com",
+      phone: "1121212",
+      city: "surat", salary: 20000,
+      degi: "senior",
+      dep: "programming",
+    },
+    {
+      id: 2,
+      name: "hari",
+      email: "hari@gmail.com",
+      phone: "5454545",
+      city: "surat",
+      salary: 22000,
+      degi: "junior",
+      dep: "ui/ux"
+    },
+    {
+      id: 3,
+      name: "raj",
+      email: "raj@gmail.com",
+      phone: "454545",
+      city: "vadodara",
+      salary: 25000,
+      degi: "junior",
+      dep: "bde"
+    },
+    {
+      id: 4,
+      name: "deep",
+      email: "deep@gmail.com",
+      phone: "565656",
+      city: "vapi",
+      salary: 30000,
+      degi: "tl",
+      dep: "webdesign"
+    },
+    {
+       id: 5,
+        name: "jay",
+         email: "jay@gmail.com",
+          phone: "5565656",
+          city: "rajkot",
+           salary: 20000,
+            degi: "senior", 
+            dep: "programming" 
+          },
+    { 
+      id: 6,
+       name: "ajay",
+        email: "ajay@gmail.com", 
+        phone: "5565656",
+         city: "vapi",
+          salary: 25000,
+           degi: "manager",
+            dep: "ui/ux"
+           }
+    ];
+
+    function renderTable(records) {
+      let tableBody = document.getElementById('recordTable');
+      tableBody.innerHTML = '';
+      let totalSalary = 0;
+
+      records.map(record => {
+        let  row = `<tr>
+                    <td>${record.id}</td>
+                    <td>${record.name}</td>
+                    <td>${record.email}</td>
+                    <td>${record.phone}</td>
+                    <td>${record.city}</td>
+                    <td>${record.salary}</td>
+                    <td>${record.degi}</td>
+                    <td>${record.dep}</td>
+                </tr>`;
+        tableBody.innerHTML += row;
+        totalSalary += record.salary;
+      });
+
+      document.getElementById('totalSalary').innerText = `Total Salary: $${totalSalary}`;
+    }
+
+    function filterRecords() {
+      const city = document.getElementById('cityFilter').value;
+
+      const salary = parseInt(document.getElementById('salaryFilter').value);
+
+      const dep = document.getElementById('depFilter').value;
+      
+      const degi = document.getElementById('degiFilter').value;
+
+      const filteredRecords = records.filter(record =>
+        (city === '' || record.city === city) &&
+        (salary === 0 || record.salary >= salary) &&
+        (dep === '' || record.dep === dep) &&
+        (degi === '' || record.degi === degi)
+      );
+
+      renderTable(filteredRecords);
+    }
+
+    document.getElementById('cityFilter').addEventListener('change', filterRecords);
+    document.getElementById('salaryFilter').addEventListener('input', filterRecords);
+    document.getElementById('depFilter').addEventListener('change', filterRecords);
+    document.getElementById('degiFilter').addEventListener('change', filterRecords);
+
+    renderTable(records);
+    
+  </script>
+</body>
+</html>
